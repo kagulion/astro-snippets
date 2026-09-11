@@ -1,0 +1,576 @@
+{
+  "Astro Component": {
+    "prefix": "a-comp",
+    "body": [
+      "---",
+      "interface Props {",
+      "  ${1:title}: ${2:string};",
+      "}",
+      "",
+      "const { ${1:title} } = Astro.props;",
+      "---",
+      "",
+      "<${3:div}>",
+      "  $0",
+      "</${3:div}>"
+    ],
+    "description": "Basic Astro component with TypeScript Props interface"
+  },
+
+  "Astro Component with Slot": {
+    "prefix": "a-comp-slot",
+    "body": [
+      "---",
+      "interface Props {",
+      "  ${1:class?: string;}",
+      "}",
+      "",
+      "const { ${2:class: className} } = Astro.props;",
+      "---",
+      "",
+      "<${3:div} class={className}>",
+      "  <slot />",
+      "</${3:div}>"
+    ],
+    "description": "Astro component with Props interface and default slot"
+  },
+
+  "Astro Page": {
+    "prefix": "a-page",
+    "body": [
+      "---",
+      "$1",
+      "---",
+      "",
+      "<!doctype html>",
+      "<html lang=\"${2:en}\">",
+      "  <head>",
+      "    <meta charset=\"UTF-8\" />",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+      "    <title>${3:Document}</title>",
+      "  </head>",
+      "  <body>",
+      "    $0",
+      "  </body>",
+      "</html>"
+    ],
+    "description": "Complete HTML5 Astro page structure"
+  },
+
+  "Astro Page with Layout": {
+    "prefix": "a-page-layout",
+    "body": [
+      "---",
+      "import Layout from '@/layouts/Layout.astro';",
+      "---",
+      "",
+      "<Layout title=\"${1:Page Title}\">",
+      "  $0",
+      "</Layout>"
+    ],
+    "description": "Astro page wrapped in a Layout component"
+  },
+
+  "Astro Layout": {
+    "prefix": "a-layout",
+    "body": [
+      "---",
+      "interface Props {",
+      "  title?: string;",
+      "  description?: string;",
+      "}",
+      "",
+      "const {",
+      "  title = '${1:My Astro Site}',",
+      "  description = '${2:Site description}',",
+      "} = Astro.props;",
+      "---",
+      "",
+      "<!doctype html>",
+      "<html lang=\"${3:en}\">",
+      "  <head>",
+      "    <meta charset=\"UTF-8\" />",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+      "    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />",
+      "    <meta name=\"generator\" content={Astro.generator} />",
+      "    <title>{title}</title>",
+      "    <meta name=\"description\" content={description} />",
+      "  </head>",
+      "  <body>",
+      "    <slot />",
+      "  </body>",
+      "</html>"
+    ],
+    "description": "Base Astro Layout with SEO metadata and slot"
+  },
+
+  "Astro Layout with Dark Mode": {
+    "prefix": "a-layout-theme",
+    "body": [
+      "---",
+      "interface Props {",
+      "  title?: string;",
+      "  description?: string;",
+      "}",
+      "",
+      "const {",
+      "  title = '${1:My Astro Site}',",
+      "  description = '${2:Site description}',",
+      "} = Astro.props;",
+      "---",
+      "",
+      "<!doctype html>",
+      "<html lang=\"${3:en}\">",
+      "  <head>",
+      "    <meta charset=\"UTF-8\" />",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+      "    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />",
+      "    <meta name=\"generator\" content={Astro.generator} />",
+      "    <title>{title}</title>",
+      "    <meta name=\"description\" content={description} />",
+      "    <script is:inline>",
+      "      const theme = (() => {",
+      "        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {",
+      "          return localStorage.getItem('theme');",
+      "        }",
+      "        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';",
+      "      })();",
+      "      if (theme === 'dark') {",
+      "        document.documentElement.classList.add('dark');",
+      "      } else {",
+      "        document.documentElement.classList.remove('dark');",
+      "      }",
+      "    </script>",
+      "  </head>",
+      "  <body class=\"bg-white text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100\">",
+      "    <slot />",
+      "  </body>",
+      "</html>"
+    ],
+    "description": "Layout component with inline dark mode detection"
+  },
+
+  "Astro Prerender": {
+    "prefix": "a-prerender",
+    "body": [
+      "export const prerender = ${1|true,false|};"
+    ],
+    "description": "Astro prerender toggle for SSG / SSR"
+  },
+
+  "Astro getStaticPaths": {
+    "prefix": "a-gsp",
+    "body": [
+      "export async function getStaticPaths() {",
+      "  return [",
+      "    { params: { ${1:slug}: '${2:value}' } },",
+      "  ];",
+      "}"
+    ],
+    "description": "Astro getStaticPaths function for dynamic SSG routes"
+  },
+
+  "Astro Dynamic Page with getStaticPaths": {
+    "prefix": "a-page-gsp",
+    "body": [
+      "---",
+      "import type { InferGetStaticPropsType, InferGetStaticParamsType } from 'astro';",
+      "",
+      "export async function getStaticPaths() {",
+      "  return [",
+      "    {",
+      "      params: { ${1:slug}: '${2:example}' },",
+      "      props: { ${3:title}: '${4:Example Title}' },",
+      "    },",
+      "  ];",
+      "}",
+      "",
+      "type Params = InferGetStaticParamsType<typeof getStaticPaths>;",
+      "type Props = InferGetStaticPropsType<typeof getStaticPaths>;",
+      "",
+      "const { ${1:slug} } = Astro.params;",
+      "const { ${3:title} } = Astro.props;",
+      "---",
+      "",
+      "<${5:div}>",
+      "  <h1>{${3:title}}</h1>",
+      "  <p>Slug: {${1:slug}}</p>",
+      "  $0",
+      "</${5:div}>"
+    ],
+    "description": "Dynamic Astro route with getStaticPaths and inferred types"
+  },
+
+  "Astro Content Collection Page": {
+    "prefix": "a-page-collection",
+    "body": [
+      "---",
+      "import { getCollection, render } from 'astro:content';",
+      "import type { InferGetStaticPropsType } from 'astro';",
+      "",
+      "export async function getStaticPaths() {",
+      "  const ${1:posts} = await getCollection('${2:blog}');",
+      "  return ${1:posts}.map((entry) => ({",
+      "    params: { slug: entry.id },",
+      "    props: { entry },",
+      "  }));",
+      "}",
+      "",
+      "type Props = InferGetStaticPropsType<typeof getStaticPaths>;",
+      "const { entry } = Astro.props;",
+      "const { Content } = await render(entry);",
+      "---",
+      "",
+      "<h1>{entry.data.${3:title}}</h1>",
+      "<Content />"
+    ],
+    "description": "Dynamic route for Content Collection entry with render"
+  },
+
+  "Astro Default Slot": {
+    "prefix": "a-slot",
+    "body": [
+      "<slot />"
+    ],
+    "description": "Astro default slot"
+  },
+
+  "Astro Slot with Fallback": {
+    "prefix": "a-slot-fallback",
+    "body": [
+      "<slot>${1:Fallback content}</slot>"
+    ],
+    "description": "Astro slot with fallback content"
+  },
+
+  "Astro Named Slot": {
+    "prefix": "a-slot-named",
+    "body": [
+      "<slot name=\"${1:name}\" />"
+    ],
+    "description": "Astro named slot"
+  },
+
+  "Astro Fragment Slot": {
+    "prefix": "a-frag-slot",
+    "body": [
+      "<Fragment slot=\"${1:name}\">",
+      "  $0",
+      "</Fragment>"
+    ],
+    "description": "Fragment with slot attribute"
+  },
+
+  "Astro Fragment set:html": {
+    "prefix": "a-frag-html",
+    "body": [
+      "<Fragment set:html={${1:rawHtml}} />"
+    ],
+    "description": "Fragment with set:html directive"
+  },
+
+  "Astro set:html": {
+    "prefix": "a-set-html",
+    "body": [
+      "set:html={${1:rawHtml}}"
+    ],
+    "description": "Astro set:html directive"
+  },
+
+  "Astro set:text": {
+    "prefix": "a-set-text",
+    "body": [
+      "set:text={${1:text}}"
+    ],
+    "description": "Astro set:text directive"
+  },
+
+  "Astro is:raw": {
+    "prefix": "a-is-raw",
+    "body": [
+      "is:raw"
+    ],
+    "description": "Astro is:raw directive"
+  },
+
+  "Astro client:load": {
+    "prefix": "a-client-load",
+    "body": [
+      "client:load"
+    ],
+    "description": "Astro client:load directive (hydrate on page load)"
+  },
+
+  "Astro client:idle": {
+    "prefix": "a-client-idle",
+    "body": [
+      "client:idle"
+    ],
+    "description": "Astro client:idle directive (hydrate when browser is idle)"
+  },
+
+  "Astro client:visible": {
+    "prefix": "a-client-visible",
+    "body": [
+      "client:visible"
+    ],
+    "description": "Astro client:visible directive (hydrate when visible in viewport)"
+  },
+
+  "Astro client:media": {
+    "prefix": "a-client-media",
+    "body": [
+      "client:media=\"(${1:max-width: 768px})\""
+    ],
+    "description": "Astro client:media directive (hydrate on media query match)"
+  },
+
+  "Astro client:only": {
+    "prefix": "a-client-only",
+    "body": [
+      "client:only=\"${1|react,vue,svelte,preact,solid-js|}\""
+    ],
+    "description": "Astro client:only directive (client-side only rendering)"
+  },
+
+  "Astro server:defer": {
+    "prefix": "a-server-defer",
+    "body": [
+      "server:defer"
+    ],
+    "description": "Astro server:defer directive for Server Islands"
+  },
+
+  "Astro Server Island Component": {
+    "prefix": "a-server-island",
+    "body": [
+      "<${1:Component} server:defer>",
+      "  <${2:div} slot=\"fallback\">",
+      "    ${3:Loading...}",
+      "  </${2:div}>",
+      "</${1:Component}>"
+    ],
+    "description": "Astro Server Island with fallback slot"
+  },
+
+  "Astro Action Form": {
+    "prefix": "a-action-form",
+    "body": [
+      "<form method=\"POST\" action={actions.${1:myAction}}>",
+      "  $0",
+      "  <button type=\"submit\">${2:Submit}</button>",
+      "</form>"
+    ],
+    "description": "HTML form with Astro Action handler"
+  },
+
+  "Astro Action Call": {
+    "prefix": "a-action-call",
+    "body": [
+      "const { data, error } = await Astro.callAction(actions.${1:myAction}, { $2 });"
+    ],
+    "description": "Server-side call of an Astro Action"
+  },
+
+  "Astro Session Get": {
+    "prefix": "a-session-get",
+    "body": [
+      "const ${1:user} = await Astro.session.get('${2:user}');"
+    ],
+    "description": "Retrieve data from Astro session"
+  },
+
+  "Astro Session Set": {
+    "prefix": "a-session-set",
+    "body": [
+      "await Astro.session.set('${1:user}', ${2:userData});"
+    ],
+    "description": "Store data in Astro session"
+  },
+
+  "Astro Env Server": {
+    "prefix": "a-env-server",
+    "body": [
+      "import { ${1:SECRET_KEY} } from 'astro:env/server';"
+    ],
+    "description": "Import type-safe server environment variable"
+  },
+
+  "Astro Env Client": {
+    "prefix": "a-env-client",
+    "body": [
+      "import { ${1:PUBLIC_API_URL} } from 'astro:env/client';"
+    ],
+    "description": "Import type-safe client environment variable"
+  },
+
+  "Astro Map Expression": {
+    "prefix": "a-map",
+    "body": [
+      "{${1:items}.map((${2:item}) => (",
+      "  <${3:div} key={${2:item}.${4:id}}>",
+      "    $0",
+      "  </${3:div}>",
+      "))}"
+    ],
+    "description": "Map expression to render a list in template"
+  },
+
+  "Astro Ternary Expression": {
+    "prefix": "a-ternary",
+    "body": [
+      "{${1:condition} ? ${2:trueValue} : ${3:falseValue}}"
+    ],
+    "description": "Ternary conditional expression in template"
+  },
+
+  "Astro Conditional AND": {
+    "prefix": "a-if",
+    "body": [
+      "{${1:condition} && (",
+      "  $0",
+      ")}"
+    ],
+    "description": "Conditional rendering with logical AND"
+  },
+
+  "Astro class:list": {
+    "prefix": "a-classlist",
+    "body": [
+      "class:list={[${1:'base-class'}, { '${2:active}': ${3:isActive} }]}"
+    ],
+    "description": "Astro class:list utility directive"
+  },
+
+  "Astro IIFE": {
+    "prefix": "a-iife",
+    "body": [
+      "{(() => {",
+      "  $0",
+      "})()}"
+    ],
+    "description": "Immediately Invoked Function Expression in template"
+  },
+
+  "Astro Image Import": {
+    "prefix": "a-img-import",
+    "body": [
+      "import { Image } from 'astro:assets';"
+    ],
+    "description": "Import Image component from astro:assets"
+  },
+
+  "Astro Image Tag": {
+    "prefix": "a-image",
+    "body": [
+      "<Image src={${1:myImage}} alt=\"${2:Description}\" width={${3:800}} height={${4:600}} />"
+    ],
+    "description": "Optimized Astro Image component"
+  },
+
+  "Astro Picture Tag": {
+    "prefix": "a-picture",
+    "body": [
+      "<Picture src={${1:myImage}} formats={['${2:avif}', '${3:webp}']} alt=\"${4:Description}\" />"
+    ],
+    "description": "Optimized Astro Picture component with multi-format support"
+  },
+
+  "Astro ClientRouter Component": {
+    "prefix": "a-router",
+    "body": [
+      "<ClientRouter />"
+    ],
+    "description": "Astro ClientRouter component for seamless page transitions"
+  },
+
+  "Astro ClientRouter Import": {
+    "prefix": "a-router-import",
+    "body": [
+      "import { ClientRouter } from 'astro:transitions';"
+    ],
+    "description": "Import ClientRouter from astro:transitions"
+  },
+
+  "Astro Font Tag": {
+    "prefix": "a-font",
+    "body": [
+      "<Font src=\"${1:/fonts/custom-font.woff2}\" />"
+    ],
+    "description": "Astro Font component for optimized web font loading"
+  },
+
+  "Astro Scoped Style": {
+    "prefix": "a-style",
+    "body": [
+      "<style>",
+      "  $0",
+      "</style>"
+    ],
+    "description": "Astro scoped <style> block"
+  },
+
+  "Astro Global Style": {
+    "prefix": "a-style-global",
+    "body": [
+      "<style is:global>",
+      "  $0",
+      "</style>"
+    ],
+    "description": "Astro global <style is:global> block"
+  },
+
+  "Astro Client Script": {
+    "prefix": "a-script",
+    "body": [
+      "<script>",
+      "  $0",
+      "</script>"
+    ],
+    "description": "Astro client-side processed <script> block"
+  },
+
+  "Astro Inline Script": {
+    "prefix": "a-script-inline",
+    "body": [
+      "<script is:inline>",
+      "  $0",
+      "</script>"
+    ],
+    "description": "Astro inline <script is:inline> block"
+  },
+
+  "Astro Style and Script": {
+    "prefix": "a-style-script",
+    "body": [
+      "<style>",
+      "  $1",
+      "</style>",
+      "",
+      "<script>",
+      "  $0",
+      "</script>"
+    ],
+    "description": "Paired <style> and <script> blocks"
+  },
+
+  "Astro Get Collection": {
+    "prefix": "a-collection",
+    "body": [
+      "import { getCollection } from 'astro:content';",
+      "",
+      "const ${1:posts} = await getCollection('${2:blog}');"
+    ],
+    "description": "Fetch content collection entries using getCollection"
+  },
+
+  "Astro Get Entry": {
+    "prefix": "a-entry",
+    "body": [
+      "import { getEntry } from 'astro:content';",
+      "",
+      "const ${1:entry} = await getEntry('${2:blog}', '${3:slug}');"
+    ],
+    "description": "Fetch a single content collection entry using getEntry"
+  }
+}

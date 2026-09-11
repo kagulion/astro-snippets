@@ -1,0 +1,224 @@
+{
+  "Astro Content Layer Config": {
+    "prefix": "a-content-config",
+    "body": [
+      "import { defineCollection, z } from 'astro:content';",
+      "import { glob } from 'astro/loaders';",
+      "",
+      "const ${1:blog} = defineCollection({",
+      "  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/${1:blog}' }),",
+      "  schema: z.object({",
+      "    title: z.string(),",
+      "    description: z.string().optional(),",
+      "    pubDate: z.coerce.date(),",
+      "    draft: z.boolean().optional(),",
+      "  }),",
+      "});",
+      "",
+      "export const collections = { ${1:blog} };"
+    ],
+    "description": "Astro 7 Content Layer configuration (src/content.config.ts)"
+  },
+
+  "Astro Define Collection": {
+    "prefix": "a-collection-define",
+    "body": [
+      "const ${1:blog} = defineCollection({",
+      "  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/${1:blog}' }),",
+      "  schema: z.object({",
+      "    title: z.string(),",
+      "    pubDate: z.coerce.date(),",
+      "    description: z.string().optional(),",
+      "  }),",
+      "});"
+    ],
+    "description": "Define a Content Collection with glob loader"
+  },
+
+  "Astro Define Data Collection": {
+    "prefix": "a-collection-data",
+    "body": [
+      "const ${1:items} = defineCollection({",
+      "  loader: file('./src/data/${1:items}.json'),",
+      "  schema: z.object({",
+      "    id: z.string(),",
+      "    name: z.string(),",
+      "    $0",
+      "  }),",
+      "});"
+    ],
+    "description": "Define a Data Collection with file loader"
+  },
+
+  "Astro Action Server Definition": {
+    "prefix": "a-action-define",
+    "body": [
+      "import { defineAction } from 'astro:actions';",
+      "import { z } from 'astro:schema';",
+      "",
+      "export const server = {",
+      "  ${1:myAction}: defineAction({",
+      "    input: z.object({",
+      "      ${2:email}: z.string().email(),",
+      "    }),",
+      "    handler: async (input, context) => {",
+      "      $0",
+      "      return { success: true };",
+      "    },",
+      "  }),",
+      "};"
+    ],
+    "description": "Define type-safe Astro Actions in src/actions/index.ts"
+  },
+
+  "Astro API Route GET": {
+    "prefix": "a-api-get",
+    "body": [
+      "import type { APIRoute } from 'astro';",
+      "",
+      "export const GET: APIRoute = async ({ params, request }) => {",
+      "  return new Response(",
+      "    JSON.stringify({",
+      "      message: '${1:Success}',",
+      "      $0",
+      "    }),",
+      "    {",
+      "      status: 200,",
+      "      headers: { 'Content-Type': 'application/json' },",
+      "    }",
+      "  );",
+      "};"
+    ],
+    "description": "Astro API endpoint GET handler"
+  },
+
+  "Astro API Route POST": {
+    "prefix": "a-api-post",
+    "body": [
+      "import type { APIRoute } from 'astro';",
+      "",
+      "export const POST: APIRoute = async ({ request }) => {",
+      "  const data = await request.json();",
+      "  return new Response(",
+      "    JSON.stringify({",
+      "      success: true,",
+      "      data,",
+      "      $0",
+      "    }),",
+      "    {",
+      "      status: 200,",
+      "      headers: { 'Content-Type': 'application/json' },",
+      "    }",
+      "  );",
+      "};"
+    ],
+    "description": "Astro API endpoint POST handler"
+  },
+
+  "Astro API Route ALL": {
+    "prefix": "a-api-all",
+    "body": [
+      "import type { APIRoute } from 'astro';",
+      "",
+      "export const ALL: APIRoute = async ({ request }) => {",
+      "  return new Response(",
+      "    JSON.stringify({ method: request.method }),",
+      "    {",
+      "      status: 200,",
+      "      headers: { 'Content-Type': 'application/json' },",
+      "    }",
+      "  );",
+      "};"
+    ],
+    "description": "Astro universal API endpoint ALL handler"
+  },
+
+  "Astro Hono Endpoint": {
+    "prefix": "a-api-hono",
+    "body": [
+      "import { Hono } from 'hono';",
+      "",
+      "const app = new Hono();",
+      "",
+      "app.get('/${1:hello}', (c) => {",
+      "  return c.json({ message: '${2:Hello from Astro + Hono!}' });",
+      "});",
+      "",
+      "export const ALL = app.fetch;"
+    ],
+    "description": "Astro endpoint using built-in Hono integration"
+  },
+
+  "Astro Middleware": {
+    "prefix": "a-middleware",
+    "body": [
+      "import { defineMiddleware } from 'astro:middleware';",
+      "",
+      "export const onRequest = defineMiddleware(async (context, next) => {",
+      "  // Execute code before request",
+      "  $0",
+      "  const response = await next();",
+      "  // Execute code after request",
+      "  return response;",
+      "});"
+    ],
+    "description": "Astro middleware handler (src/middleware.ts)"
+  },
+
+  "Astro Redirect": {
+    "prefix": "a-redirect",
+    "body": [
+      "return Astro.redirect('${1:/login}', ${2:302});"
+    ],
+    "description": "Astro server-side redirect"
+  },
+
+  "Astro Get Collection": {
+    "prefix": "a-collection",
+    "body": [
+      "import { getCollection } from 'astro:content';",
+      "",
+      "const ${1:posts} = await getCollection('${2:blog}');"
+    ],
+    "description": "Fetch content collection entries using getCollection"
+  },
+
+  "Astro Get Entry": {
+    "prefix": "a-entry",
+    "body": [
+      "import { getEntry } from 'astro:content';",
+      "",
+      "const ${1:entry} = await getEntry('${2:blog}', '${3:slug}');"
+    ],
+    "description": "Fetch a single content collection entry using getEntry"
+  },
+
+  "Astro Env Server Import": {
+    "prefix": "a-env-server",
+    "body": [
+      "import { ${1:SECRET_KEY} } from 'astro:env/server';"
+    ],
+    "description": "Import type-safe server environment variable"
+  },
+
+  "Astro Env Client Import": {
+    "prefix": "a-env-client",
+    "body": [
+      "import { ${1:PUBLIC_API_URL} } from 'astro:env/client';"
+    ],
+    "description": "Import type-safe client environment variable"
+  },
+
+  "Astro Env Config Schema": {
+    "prefix": "a-env-config",
+    "body": [
+      "env: {",
+      "  schema: {",
+      "    ${1:API_SECRET}: envField.string({ context: 'server', access: 'secret' }),",
+      "    ${2:PUBLIC_URL}: envField.string({ context: 'client', access: 'public' }),",
+      "  },",
+      "},"
+    ],
+    "description": "Environment variable schema in astro.config.mjs"
+  }
+}
