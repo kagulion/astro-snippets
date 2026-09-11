@@ -1,62 +1,42 @@
+
 # Astro Snippets for Zed
 
-A comprehensive, clean, and modern collection of snippets for developing Astro applications (including Astro 7.3+) in Zed IDE.
+Modern, clean, and comprehensive snippets for Astro development in Zed IDE. All snippets use the uniform `a-*` prefix.
 
-This extension consolidates and refines snippets from popular VS Code extensions (`bastndev.astro-js-snippets` and `sheltonlouis.astro-snippets`), eliminating duplicates, fixing syntax bugs, and incorporating modern Astro features such as Server Islands, Actions, Sessions, Content Layer loaders, ClientRouter, and Hono integration.
+![Astro Snippets](preview.jpg)
 
----
+## Installation
 
-## Features
-
-- **Unified prefix convention**: All snippets use the standard `a-*` prefix (such as `a-comp`, `a-layout`, `a-map`, `a-action-form`).
-- **Clean and validated syntax**: Correct tag pairing, valid JavaScript/TypeScript syntax, and no deprecated tags or vendor prefixes.
-- **Modern Astro 7+ support**:
-  - Server Islands (`server:defer` and fallback slots).
-  - Astro Actions (`astro:actions`, typed forms, and server RPC).
-  - Astro Sessions (`Astro.session.get / set`).
-  - Content Layer (`src/content.config.ts`, `glob` and `file` loaders).
-  - ClientRouter (transition component replacing legacy ViewTransitions).
-  - Built-in Hono integration (`export const ALL = app.fetch`).
-  - Astro Fonts (`<Font />`).
-  - Type-Safe Environment Variables (`astro:env/server`, `astro:env/client`).
-
----
-
-## Installation in Zed IDE
-
-### Option 1: User Snippets Directory
-Place the snippet files directly into your Zed snippets folder:
-- **Windows**: `%APPDATA%\Zed\snippets\` (`astro.json`, `typescript.json`, `javascript.json`)
+### User Snippets
+Copy the files from `snippets/` to your Zed snippets directory:
+- **Windows**: `%APPDATA%\Zed\snippets\`
 - **macOS / Linux**: `~/.config/zed/snippets/`
 
-Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
-
-### Option 2: Install as a Dev Extension
-1. Open the Zed command palette with `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS).
+### Dev Extension
+1. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
 2. Run `zed: install dev extension`.
-3. Select the root directory of this repository (`astro-snippets`).
-4. Zed will register the extension in the extensions manager.
+3. Select this folder.
 
 ---
 
-## Snippet Reference
+## Snippets Reference
 
-### 1. Components, Pages, and Layouts (`.astro`)
+### Components, Pages & Layouts (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
-| `a-comp` | Basic Component | Frontmatter with TypeScript `Props` interface and container element |
-| `a-comp-slot` | Component with Slot | Component with props interface and default `<slot />` |
-| `a-page` | HTML5 Page | Complete HTML5 page template with Astro frontmatter |
-| `a-page-layout` | Page with Layout | Page template importing and wrapping content in `<Layout>` |
-| `a-layout` | Base Layout | Base layout with SEO metadata, viewport tags, and `<slot />` |
-| `a-layout-theme` | Layout with Theme | Layout with inline script for dark/light mode detection |
+| `a-comp` | Basic Component | Component with `Props` interface and container |
+| `a-comp-slot` | Component with Slot | Component with props and default `<slot />` |
+| `a-page` | HTML5 Page | Complete HTML5 page template |
+| `a-page-layout` | Page with Layout | Page wrapped in `<Layout>` |
+| `a-layout` | Base Layout | Layout with SEO metadata and `<slot />` |
+| `a-layout-theme` | Layout with Theme | Layout with dark/light mode detection script |
 | `a-prerender` | Prerender Toggle | `export const prerender = true;` |
 | `a-gsp` | Static Paths Function | `export async function getStaticPaths() { ... }` |
-| `a-page-gsp` | Dynamic SSG Page | Page with `getStaticPaths` and typed `InferGetStaticPropsType` |
-| `a-page-collection` | Content Collection Page | Dynamic collection route with `getCollection` and `render` |
+| `a-page-gsp` | Dynamic SSG Page | Page with `getStaticPaths` and typed props |
+| `a-page-collection` | Content Collection Page | Dynamic collection route with `render` |
 
-### 2. Client Directives and Server Islands (`.astro`)
+### Directives & Server Islands (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
@@ -64,11 +44,11 @@ Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
 | `a-client-idle` | Hydrate when Idle | `client:idle` |
 | `a-client-visible` | Hydrate when Visible | `client:visible` |
 | `a-client-media` | Hydrate on Media Query | `client:media="(max-width: 768px)"` |
-| `a-client-only` | Client-only Component | `client:only="react"` (with framework options) |
+| `a-client-only` | Client-only Component | `client:only="react"` |
 | `a-server-defer` | Server Island Directive | `server:defer` |
-| `a-server-island` | Server Island with Slot | Deferred component with `<div slot="fallback">` |
+| `a-server-island` | Server Island with Slot | Component with `<div slot="fallback">` |
 
-### 3. Slots, Fragments, and HTML Directives (`.astro`)
+### Slots & Fragments (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
@@ -81,20 +61,20 @@ Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
 | `a-set-text` | Set Text Attribute | `set:text={text}` |
 | `a-is-raw` | Raw Text Directive | `is:raw` |
 
-### 4. Actions, Sessions, and Environment Variables (`.astro`, `.ts`, `.js`)
+### Actions, Sessions & Env (`.astro`, `.ts`, `.js`)
 
 | Prefix | Scope | Description |
 | :--- | :--- | :--- |
-| `a-action-form` | `.astro` | HTML form bound to an action: `<form method="POST" action={actions.myAction}>` |
-| `a-action-call` | `.astro`, `.ts` | Server-side action call: `await Astro.callAction(actions.myAction, { ... })` |
-| `a-action-define` | `.ts`, `.js` | Define action in `src/actions/index.ts` with Zod validation |
-| `a-session-get` | `.astro`, `.ts` | Read session data: `await Astro.session.get('user')` |
-| `a-session-set` | `.astro`, `.ts` | Write session data: `await Astro.session.set('user', data)` |
-| `a-env-server` | `.astro`, `.ts` | Import server variable: `import { SECRET } from 'astro:env/server'` |
-| `a-env-client` | `.astro`, `.ts` | Import client variable: `import { PUBLIC_URL } from 'astro:env/client'` |
-| `a-env-config` | `astro.config` | Define environment schema with `envField` in Astro config |
+| `a-action-form` | `.astro` | `<form method="POST" action={actions.myAction}>` |
+| `a-action-call` | `.astro`, `.ts` | `await Astro.callAction(actions.myAction, { ... })` |
+| `a-action-define` | `.ts`, `.js` | Define action in `src/actions/index.ts` with Zod |
+| `a-session-get` | `.astro`, `.ts` | `await Astro.session.get('user')` |
+| `a-session-set` | `.astro`, `.ts` | `await Astro.session.set('user', data)` |
+| `a-env-server` | `.astro`, `.ts` | `import { SECRET } from 'astro:env/server'` |
+| `a-env-client` | `.astro`, `.ts` | `import { PUBLIC_URL } from 'astro:env/client'` |
+| `a-env-config` | `astro.config` | Define `envField` schema in config |
 
-### 5. Template Expressions and Logic (`.astro`)
+### Template Expressions (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
@@ -104,7 +84,7 @@ Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
 | `a-classlist` | Class List Directive | `class:list={['base', { active: isActive }]}` |
 | `a-iife` | IIFE in Template | `{(() => { ... })()}` |
 
-### 6. Assets, Fonts, and Navigation (`.astro`)
+### Assets, Fonts & Navigation (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
@@ -115,7 +95,7 @@ Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
 | `a-router-import` | Import ClientRouter | `import { ClientRouter } from 'astro:transitions';` |
 | `a-font` | Font Component | `<Font src="/fonts/font.woff2" />` |
 
-### 7. Scoped Styles and Scripts (`.astro`)
+### Styles & Scripts (`.astro`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
@@ -125,40 +105,34 @@ Snippets are active immediately when editing `.astro`, `.ts`, and `.js` files.
 | `a-script-inline` | Inline Script Block | `<script is:inline>...</script>` |
 | `a-style-script` | Style and Script Pair | Combined `<style>` and `<script>` blocks |
 
-### 8. Content Collections and Content Layer (`.ts`, `.js`, `.astro`)
+### Content Collections (`.ts`, `.js`, `.astro`)
 
 | Prefix | Scope | Description |
 | :--- | :--- | :--- |
-| `a-content-config` | `src/content.config.ts` | Astro 7 Content Layer configuration with `glob` loader and Zod |
-| `a-collection-define` | `content.config.ts` | Individual collection definition using `glob` loader |
-| `a-collection-data` | `content.config.ts` | Data collection definition using `file` loader |
-| `a-collection` | `.astro`, `.ts` | Retrieve collection items: `await getCollection('blog')` |
-| `a-entry` | `.astro`, `.ts` | Retrieve single collection item: `await getEntry('blog', slug)` |
+| `a-content-config` | `src/content.config.ts` | Content Layer config with `glob` loader and Zod |
+| `a-collection-define` | `content.config.ts` | Collection definition with `glob` loader |
+| `a-collection-data` | `content.config.ts` | Data collection with `file` loader |
+| `a-collection` | `.astro`, `.ts` | `await getCollection('blog')` |
+| `a-entry` | `.astro`, `.ts` | `await getEntry('blog', slug)` |
 
-### 9. Server API Endpoints, Hono, and Middleware (`.ts`, `.js`)
+### API Endpoints & Middleware (`.ts`, `.js`)
 
 | Prefix | Description | Output |
 | :--- | :--- | :--- |
 | `a-api-get` | GET Route Handler | `export const GET: APIRoute = async (...) => Response` |
 | `a-api-post` | POST Route Handler | `export const POST: APIRoute = async (...) => Response` |
 | `a-api-all` | Universal Route Handler | `export const ALL: APIRoute = async (...) => Response` |
-| `a-api-hono` | Integrated Hono Router | `const app = new Hono(); export const ALL = app.fetch;` |
+| `a-api-hono` | Hono Router Endpoint | `const app = new Hono(); export const ALL = app.fetch;` |
 | `a-middleware` | Astro Middleware | `export const onRequest = defineMiddleware(...)` |
 | `a-redirect` | Server-side Redirect | `return Astro.redirect('/url', 302);` |
 
 ---
 
-## Project Structure
+## Credits
 
-```
-astro-snippets/
-├── extension.toml         # Zed extension manifest
-├── snippets/
-│   ├── astro.json         # Snippets for .astro files
-│   ├── typescript.json    # Snippets for .ts files
-│   └── javascript.json    # Snippets for .js files
-└── README.md              # Documentation and snippet reference
-```
+Inspired by and based on:
+- [Astro Snippets by SheltonLouis](https://marketplace.visualstudio.com/items?itemName=SheltonLouis.astro-snippets)
+- [Snippets Astro by bastndev](https://marketplace.visualstudio.com/items?itemName=bastndev.astro-js-snippets)
 
 ---
 
