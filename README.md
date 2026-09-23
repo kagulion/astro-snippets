@@ -7,7 +7,16 @@ Modern, clean, and comprehensive snippets for Astro development in Zed IDE. All 
 
 ## Installation
 
-### User Snippets
+### Via Zed Extensions (Recommended)
+
+Install directly within Zed:
+1. Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux, `Cmd+Shift+P` on macOS).
+2. Type and run `zed: extensions`.
+3. Search for **Astro Snippets** and click **Install**.
+
+You can also find it on the [Zed Extensions page](https://zed.dev/extensions/astro-snippets).
+
+### Manual Installation (User Snippets)
 Copy the files from `snippets/` to your Zed snippets directory:
 - **Windows**: `%APPDATA%\Zed\snippets\`
 - **macOS / Linux**: `~/.config/zed/snippets/`
